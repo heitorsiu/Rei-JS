@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor Salarial 2024</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #2c3e50 0%, #3498db 50%, #e74c3c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        
+        .card {
+            background: rgba(0,0,0,0.25);
+            backdrop-filter: blur(10px);
+            padding: 3rem 2.5rem;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            padding: 1.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        input[type="number"]::placeholder {
+            color: #7f8c8d;
+        }
+        
+        .btn-calcular {
+            width: 100%;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            padding: 1.2rem;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin: 1rem 0;
+        }
+        
+        .btn-calcular:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(231,76,60,0.4);
+        }
+        
+        .output {
+            background: linear-gradient(135deg, #f39c12, #f1c40f);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-top: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1.5;
+            display: none;
+        }
+        
+        .salario-info {
+            text-align: center;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            💵 Conversor de Salários Mínimos 2024
+        </div>
+        
+        <div class="salario-info">
+             Referência: <strong>R$ 1.525,00</strong>
+        </div>
+        
+        <div class="input-group">
+            <input type="number" id="valorSalario" placeholder=" Insira seu salário mensal" step="0.01" min="0">
+        </div>
+        
+        <button class="btn-calcular" onclick="executarCalculo()">
+             Processar Cálculo
+        </button>
+        
+        <div id="painelResultado" class="output">
+            <div id="conteudoResultado"></div>
+        </div>
+    </div>
+
+    <script>
+        const VALOR_BASE = 1525.00;
+        
+        function executarCalculo() {
+            const campoSalario = document.getElementById('valorSalario');
+            const salario = parseFloat(campoSalario.value);
+            
+            if (!salario || salario <= 0) {
+                alert(' Por favor, insira um valor salarial válido!');
+                campoSalario.focus();
+                return;
+            }
+            
+            const relacaoSalarial = salario / VALOR_BASE;
+            const painel = document.getElementById('painelResultado');
+            const conteudo = document.getElementById('conteudoResultado');
+            
+            conteudo.innerHTML = `
+                💰 Valor informado: <strong>R$ ${salario.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong><br>
+                📊 Representa: <strong>${relacaoSalarial.toFixed(2)} salário(s) mínimo(s)</strong><br>
+                <small> Base de cálculo: R$ ${VALOR_BASE.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</small>
+            `;
+            
+            painel.style.display = 'block';
+            
+            // Scroll suave para o resultado
+            painel.scrollIntoView({ behavior: 'smooth' });
+            
+            // Notificação adicional
+            setTimeout(() => {
+                alert(` Resultado: R$ ${salario.toFixed(2)} = ${relacaoSalarial.toFixed(2)} salário(s) mínimo(s)`);
+            }, 100);
+        }
+        
+        // Enter para calcular
+        document.getElementById('valorSalario').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executarCalculo();
+            }
+        });
+    </script>
+</body>
+</html>
