@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Numérica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 50px 30px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .display {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #ffeb3b;
+            margin: 30px 0;
+            text-shadow: 0 0 20px rgba(255,235,59,0.5);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .result-item {
+            font-size: 1.4em;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .prev {
+            background: rgba(244, 67, 54, 0.2);
+            border: 2px solid rgba(244, 67, 54, 0.4);
+            color: #ffcdd2;
+        }
+        
+        .next {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.4);
+            color: #c8e6c9;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(238, 90, 82, 0.4);
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(238, 90, 82, 0.6);
+        }
+        
+        .input-section {
+            margin: 20px 0;
+        }
+        
+        input {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            width: 200px;
+            text-align: center;
+            margin-right: 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .display {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="app">
+        <h1> Calculadora Numérica</h1>
+        <p class="subtitle">Descubra o anterior e próximo número instantaneamente!</p>
+        
+        <div class="input-section">
+            <input type="number" id="numeroInput" placeholder="Digite um número..." />
+            <button class="btn" onclick="processarNumero()"> Calcular</button>
+        </div>
+        
+        <div id="resultado" style="display: none;">
+            <div class="display" id="numeroDisplay">-</div>
+            <div class="result-item prev" id="prevDisplay"> Anterior: -</div>
+            <div class="result-item next" id="nextDisplay"> Próximo: -</div>
+            <button class="btn" onclick="reiniciar()"> Novo Número</button>
+        </div>
+    </div>
+
+    <script>
+        function processarNumero() {
+            const input = document.getElementById('numeroInput');
+            const numero = parseInt(input.value);
+            
+            if (isNaN(numero)) {
+                alert(' Por favor, digite um número válido!');
+                input.focus();
+                return;
+            }
+            
+            const anterior = numero - 1;
+            const proximo = numero + 1;
+            
+            // Atualizar display
+            document.getElementById('numeroDisplay').textContent = numero;
+            document.getElementById('prevDisplay').innerHTML = ` Anterior: <strong>${anterior}</strong>`;
+            document.getElementById('nextDisplay').innerHTML = ` Próximo: <strong>${proximo}</strong>`;
+            
+            // Mostrar resultado
+            document.getElementById('resultado').style.display = 'block';
+            document.getElementById('input-section').style.display = 'none';
+            
+            // Scroll suave
+            document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function reiniciar() {
+            document.getElementById('resultado').style.display = 'none';
+            document.getElementById('input-section').style.display = 'block';
+            document.getElementById('numeroInput').value = '';
+            document.getElementById('numeroInput').focus();
+        }
+        
+        // Enter para calcular
+        document.getElementById('numeroInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                processarNumero();
+            }
+        });
+        
+        // Foco automático no input
+        window.onload = function() {
+            document.getElementById('numeroInput').focus();
+        }
+    </script>
+</body>
+</html>
