@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificador de Lógica Booleana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 50px 40px;
+            border-radius: 25px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .success {
+            background: linear-gradient(45deg, #00b894, #00cec9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            margin: 15px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .error {
+            background: linear-gradient(45deg, #e17055, #d63031);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 20px;
+            margin: 15px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .output {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            border-radius: 20px;
+            margin-top: 25px;
+            font-size: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .dropdown {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 15px 20px;
+            font-size: 16px;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            margin: 15px;
+            width: 220px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #fd79a8, #e84393);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(253, 121, 168, 0.4);
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1> Verificador Lógico</h1>
+        <p class="subtitle">Teste se AMBOS os valores são verdadeiros</p>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+            <select id="valor1" class="dropdown">
+                <option value="">Selecione A</option>
+                <option value="true"> Verdadeiro</option>
+                <option value="false"> Falso</option>
+            </select>
+            
+            <select id="valor2" class="dropdown">
+                <option value="">Selecione B</option>
+                <option value="true"> Verdadeiro</option>
+                <option value="false"> Falso</option>
+            </select>
+        </div>
+        
+        <button class="btn" onclick="verificarLogica()">Verificar </button>
+        
+        <div id="saida" class="output" style="display: none;"></div>
+    </div>
+
+    <script>
+        function verificarLogica() {
+            const select1 = document.getElementById('valor1');
+            const select2 = document.getElementById('valor2');
+            
+            const valorA = select1.value === 'true';
+            const valorB = select2.value === 'true';
+            
+            if (!select1.value || !select2.value) {
+                alert(' Por favor, selecione ambos os valores!');
+                return;
+            }
+            
+            const resultado = valorA && valorB;
+            const tipo = resultado ? 'success' : 'error';
+            const mensagem = resultado ? 
+                ' AMBOS VERDADEIROS!' : 
+                ' Nem todos são verdadeiros!';
+            
+            const saida = document.getElementById('saida');
+            saida.innerHTML = `
+                <div>
+                    <div style="margin-bottom: 15px;">
+                        <strong>Valor A:</strong> ${valorA ? ' Verdadeiro' : ' Falso'}
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <strong>Valor B:</strong> ${valorB ? ' Verdadeiro' : ' Falso'}
+                    </div>
+                    <hr style="border: 1px solid rgba(255,255,255,0.3); margin: 20px 0;">
+                    <div class="${tipo}">
+                        <strong>${mensagem}</strong>
+                    </div>
+                </div>
+            `;
+            saida.style.display = 'block';
+            saida.scrollIntoView({ behavior: 'smooth' });
+            
+            console.log(`Valor A: ${valorA}, Valor B: ${valorB}, Resultado (A && B): ${resultado}`);
+        }
+    </script>
+</body>
+</html>
