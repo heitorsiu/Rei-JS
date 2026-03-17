@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Soma de Dois Números</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+    </style>
+</head>
+<body>
+    <h1> Calculadora Simples</h1>
+
+    <script>
+        // Programa para somar dois valores e comparar com o terceiro
+        let valorA = Number(prompt("Informe o primeiro número (A):"));
+        let valorB = Number(prompt("Informe o segundo número (B):"));
+        let valorC = Number(prompt("Informe o terceiro número (C):"));
+
+        let resultadoSoma = valorA + valorB;
+
+        alert(`Resultado da soma A + B = ${resultadoSoma}`);
+
+        if (resultadoSoma < valorC) {
+            alert(`✅ CORRETO! A soma (${resultadoSoma}) é MENOR que C (${valorC})`);
+        } else {
+            alert(`❌ INCORRETO! A soma (${resultadoSoma}) NÃO é menor que C (${valorC})`);
+        }
+    </script>
+</body>
+</html>
