@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Detector Par/Ímpar + Sinal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 30px 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        h1 { 
+            color: white; 
+            text-align: center; 
+            margin-bottom: 30px; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .card-resultado { 
+            background: rgba(255,255,255,0.95); 
+            padding: 25px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+        }
+        .icone { font-size: 2em; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <h1> Analisador Numérico Avançado</h1>
+
+    <script>
+        // CAPTURA E VALIDAÇÃO DO NÚMERO
+        let valorNumerico;
+        do {
+            valorNumerico = prompt(" Insira qualquer número:");
+            valorNumerico = parseFloat(valorNumerico);
+        } while (isNaN(valorNumerico));
+
+        // ANÁLISE PARIDADE (módulo 2)
+        const ehPar = valorNumerico % 2 === 0;
+        const classificacaoParidade = ehPar ? " PAR" : " ÍMPAR";
+
+        // ANÁLISE SINAL
+        let classificacaoSinal;
+        if (valorNumerico > 0) {
+            classificacaoSinal = " POSITIVO";
+        } else if (valorNumerico < 0) {
+            classificacaoSinal = " NEGATIVO";
+        } else {
+            classificacaoSinal = " ZERO";
+        }
+
+        // ALERTA INTERATIVO
+        alert(` RELATÓRIO COMPLETO\n\n` +
+              `Número analisado: ${valorNumerico}\n` +
+              `${classificacaoParidade}\n` +
+              `${classificacaoSinal}`);
+
+        // EXIBIÇÃO NA PÁGINA
+        document.write(`
+            <div class="card-resultado">
+                <h2><span class="icone"></span>ANÁLISE FINALIZADA</h2>
+                <div style="font-size: 1.3em; margin: 20px 0; line-height: 1.6;">
+                    <p><strong>Número:</strong> <span style="color: #e74c3c; font-size: 1.5em;">${valorNumerico}</span></p>
+                    <p><strong>Paridade:</strong> ${classificacaoParidade}</p>
+                    <p><strong>Sinal:</strong> ${classificacaoSinal}</p>
+                </div>
+            </div>
+        `);
+    </script>
+</body>
+</html>
