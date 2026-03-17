@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Aumento Salarial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 50%, #ffecd2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 30px;
+            max-width: 550px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .header h1 { font-size: 28px; margin-bottom: 10px; }
+        .header h2 { font-size: 20px; opacity: 0.9; }
+        
+        .bonus-box {
+            background: linear-gradient(45deg, #ff9ff3, #f368e0);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(255, 159, 243, 0.3);
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .input-group input {
+            padding: 18px 25px;
+            font-size: 22px;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
+            width: 280px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            transform: scale(1.02);
+        }
+        
+        .calc-btn {
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .calc-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.4);
+        }
+        
+        .output {
+            display: none;
+            margin-top: 35px;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+        }
+        
+        .old-value { 
+            color: #e74c3c; 
+            font-size: 30px; 
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .boost-icon {
+            font-size: 45px;
+            margin: 20px 0;
+            display: block;
+        }
+        
+        .boost-percent { 
+            font-size: 28px; 
+            color: #00b894; 
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .new-value { 
+            color: #00b894; 
+            font-size: 32px; 
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .gain {
+            background: rgba(0, 184, 148, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #00695c;
+        }
+        
+        @media (max-width: 600px) {
+            .card { padding: 30px 25px; }
+            .input-group input { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1> Aumento Salarial</h1>
+            <h2>Calculadora de 5% de Reajuste</h2>
+        </div>
+
+        <div class="bonus-box">
+             <strong>AUMENTO DE 5% AUTOMÁTICO</strong> 
+        </div>
+
+        <div class="input-group">
+            <input type="number" id="salarioAtual" placeholder=" Valor atual do salário" step="0.01">
+        </div>
+        
+        <button class="calc-btn" onclick="processarAumento()">
+             CALCULAR NOVO SALÁRIO 
+        </button>
+
+        <div id="painelResultado" class="output"></div>
+    </div>
+
+    <script>
+        const TAXA_AUMENTO = 5 / 100; // 5% em decimal
+
+        function processarAumento() {
+            const salarioInput = document.getElementById('salarioAtual').value;
+            const salario = parseFloat(salarioInput);
+
+            if (!salario || salario <= 0) {
+                alert(' Por favor, insira um salário válido!');
+                return;
+            }
+
+            const novoSalario = salario * (1 + TAXA_AUMENTO);
+            const valorAumento = novoSalario - salario;
+
+            const painel = document.getElementById('painelResultado');
+            painel.innerHTML = `
+                <div class="result-card">
+                    <div class="old-value">
+                         ANTES: R$ ${salario.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    </div>
+                    
+                    <span class="boost-icon">✨</span>
+                    
+                    <div class="boost-percent">
+                        +${TAXA_AUMENTO * 100}%
+                    </div>
+                    
+                    <div class="new-value">
+                         DEPOIS: R$ ${novoSalario.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    </div>
+                    
+                    <div class="gain">
+                         Ganho: R$ ${valorAumento.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                    </div>
+                </div>
+            `;
+            painel.style.display = 'block';
+
+            // Notificação rápida
+            setTimeout(() => {
+                alert(` Sucesso!\nR$ ${salario.toFixed(2)} → R$ ${novoSalario.toFixed(2)} (+5%)`);
+            }, 100);
+        }
+    </script>
+</body>
+</html>
