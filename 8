@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificação Numérica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .title {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .inputs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .input-field {
+            background: rgba(255,255,255,0.15);
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            text-align: center;
+            min-width: 100px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .input-field:focus {
+            outline: none;
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+        
+        .btn-calcular {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-calcular:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(240, 147, 251, 0.4);
+        }
+        
+        .output {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .ranking {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .primeiro { 
+            color: #ffd700; 
+            font-size: 2rem; 
+            font-weight: bold;
+            margin: 0.5rem 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .segundo { 
+            color: #c0c0c0; 
+            font-size: 1.7rem; 
+            margin: 0.5rem 0;
+        }
+        
+        .terceiro { 
+            color: #cd7f32; 
+            font-size: 1.5rem; 
+            margin: 0.5rem 0;
+        }
+        
+        .original {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        @media (max-width: 480px) {
+            .inputs { flex-direction: column; align-items: center; }
+            .input-field { width: 200px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="title"> Classificador Numérico</h1>
+        <p class="subtitle">Insira 3 valores <strong>INTEIROS DISTINTOS</strong> para classificação</p>
+        
+        <div class="inputs">
+            <input type="number" class="input-field" id="valor1" placeholder="Valor 1">
+            <input type="number" class="input-field" id="valor2" placeholder="Valor 2">
+            <input type="number" class="input-field" id="valor3" placeholder="Valor 3">
+        </div>
+        
+        <button class="btn-calcular" onclick="classificarNumeros()">CLASSIFICAR </button>
+        
+        <div id="saida" class="output"></div>
+    </div>
+
+    <script>
+        function classificarNumeros() {
+            // Capturar valores dos campos
+            const valor1 = parseInt(document.getElementById('valor1').value);
+            const valor2 = parseInt(document.getElementById('valor2').value);
+            const valor3 = parseInt(document.getElementById('valor3').value);
+
+            // Validação de entrada
+            if (isNaN(valor1) || isNaN(valor2) || isNaN(valor3)) {
+                alert(' Por favor, insira apenas números inteiros válidos!');
+                return;
+            }
+
+            // Verificar se os números são distintos
+            const valores = [valor1, valor2, valor3];
+            const unicos = new Set(valores);
+            if (unicos.size !== 3) {
+                alert(' Todos os números devem ser DIFERENTES!');
+                return;
+            }
+
+            // Ordenação decrescente usando spread operator e sort
+            const ordenados = [...valores].sort((x, y) => y - x);
+
+            // Exibir resultado
+            const saida = document.getElementById('saida');
+            saida.innerHTML = `
+                <div class="ranking">
+                    <h3> CLASSIFICAÇÃO DECRESCENTE</h3>
+                    <div class="primeiro">1º  ${ordenados[0]}</div>
+                    <div class="segundo">2º  ${ordenados[1]}</div>
+                    <div class="terceiro">3º  ${ordenados[2]}</div>
+                </div>
+                <div class="original">
+                     Valores originais: ${valor1}, ${valor2}, ${valor3}
+                </div>
+            `;
+            saida.style.display = 'block';
+
+            // Log técnico no console
+            console.table({
+                'Originais': valores,
+                'Ordenados': ordenados,
+                'Processo': 'Decrescente (maior → menor)'
+            });
+        }
+
+        // Permitir Enter para calcular
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                classificarNumeros();
+            }
+        });
+    </script>
+</body>
+</html>
