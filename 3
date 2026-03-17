@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Operação Matemática Dinâmica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .instrucao {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        
+        .output {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .valor {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .operacao {
+            font-size: 1.4em;
+            color: #ffd700;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="app">
+        <h1>⚡ Operador Lógico</h1>
+        <div class="instrucao">
+            <strong>Regra:</strong> Números <span style="color: #ffd700;">iguais</span> = <span style="color: #00ff88;">SOMA</span><br>
+            Números <span style="color: #ff4444;">diferentes</span> = <span style="color: #ffaa00;">PRODUTO</span>
+        </div>
+    </div>
+
+    <script>
+        // Captura dos valores
+        const valorA = parseInt(prompt("Informe o primeiro número (A):"));
+        const valorB = parseInt(prompt("Informe o segundo número (B):"));
+
+        // Cálculo baseado na condição
+        let resultado;
+        let tipoOperacao;
+        
+        if (valorA == valorB) {
+            resultado = valorA + valorB;
+            tipoOperacao = "SOMA";
+        } else {
+            resultado = valorA * valorB;
+            tipoOperacao = "PRODUTO";
+        }
+
+        // Exibição do resultado
+        const app = document.getElementById('app');
+        app.innerHTML += `
+            <div class="output">
+                <h2 style="margin-bottom: 20px; color: ${tipoOperacao === 'SOMA' ? '#00ff88' : '#ffaa00'}">
+                    ${tipoOperacao === 'SOMA' ? ' IGUAIS' : ' DIFERENTES'}
+                </h2>
+                <div class="valor">A = ${valorA}</div>
+                <div class="valor">B = ${valorB}</div>
+                <div class="operacao">${tipoOperacao} = ${resultado}</div>
+                <div style="font-size: 0.95em; opacity: 0.9; margin-top: 15px;">
+                    ${tipoOperacao === 'SOMA' ? `(${valorA} + ${valorB})` : `(${valorA} × ${valorB})`}
+                </div>
+            </div>
+        `;
+
+        // Feedback visual
+        app.querySelector('.output').style.animation = 'pulse 0.5s ease-in-out';
+    </script>
+
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</body>
+</html>
